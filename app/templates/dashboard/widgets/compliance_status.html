@@ -1,0 +1,16 @@
+<div class="compliance-widget">
+  <h3>Overall Compliance</h3>
+  <div class="progress-circle" data-percentage="{{ compliance_percentage }}">
+      <span>{{ compliance_percentage }}%</span>
+  </div>
+  <div class="framework-breakdown">
+      {% for framework in frameworks %}
+      <div class="framework-status">
+          <span>{{ framework.name }}</span>
+          <div class="progress-bar">
+              <div class="progress" style="width: {{ framework.percentage }}%"></div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>

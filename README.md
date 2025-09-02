@@ -539,3 +539,11 @@ def health_check():
 ```
 
 This high-level design provides a comprehensive foundation for building Comp360Flow using Python, Flask, Jinja templates, and PostgreSQL. The modular architecture ensures maintainability and scalability while addressing all the key features outlined in the requirements document.
+
+---
+
+Quickstart
+
+1. Create a virtual environment and install dependencies from `requirements.txt`.
+2. Optionally set `DATABASE_URL` and `REDIS_URL` env vars.
+3. Start the dev server with `python run.py` and open http://localhost:5000.

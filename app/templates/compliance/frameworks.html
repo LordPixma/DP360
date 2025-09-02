@@ -1,0 +1,11 @@
+{% extends 'base/layout.html' %}
+{% block content %}
+<h1>Frameworks</h1>
+<ul>
+  {% for f in frameworks %}
+  <li>{{ f.name }} ({{ f.code }})</li>
+  {% else %}
+  <li>No frameworks yet</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

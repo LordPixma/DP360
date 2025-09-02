@@ -1,0 +1,11 @@
+{% extends 'base/layout.html' %}
+{% block content %}
+<h1>Controls</h1>
+<ul>
+  {% for c in controls %}
+  <li>{{ c.control_id }} - {{ c.title }}</li>
+  {% else %}
+  <li>No controls</li>
+  {% endfor %}
+</ul>
+{% endblock %}
