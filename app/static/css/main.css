@@ -1,8 +1,15 @@
-body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#f6f7f9;color:#111}
-.nav{display:flex;gap:1rem;padding:1rem;background:#111;color:#fff}
-.nav a{color:#fff;text-decoration:none}
-.container{padding:1.5rem}
-.compliance-widget{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:1rem}
-.progress-bar{width:100%;height:6px;background:#eee;border-radius:4px;overflow:hidden}
-.progress{height:100%;background:#0ea5e9}
-.footer{padding:2rem;text-align:center;color:#666}
+@import url('../styles/tokens/colors.css');
+@import url('../styles/tokens/typography.css');
+@import url('../styles/tokens/spacing.css');
+@import url('../styles/base/base.css');
+@import url('../styles/components/navigation.css');
+@import url('../styles/components/forms.css');
+@import url('../styles/components/widgets.css');
+@import url('../styles/components/overlays.css');
+@import url('../styles/layouts/app-shell.css');
+@import url('../styles/pages/auth.css');
+@import url('../styles/utilities/effects.css');
+
+.footer { padding: var(--space-8); text-align: center; color: var(--gray-500); }
+.progress-bar{width:100%;height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden}
+.progress{height:100%;background:var(--accent-primary)}

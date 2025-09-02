@@ -1,0 +1,8 @@
+.auth-split { display:flex; min-height: 100vh; }
+.auth-left { width:60%; color: var(--white); background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 100%); padding: var(--space-12); display:flex; flex-direction:column; justify-content:center; }
+.auth-right { width:40%; background: var(--gray-50); padding: var(--space-12); display:flex; flex-direction:column; justify-content:center; }
+.auth-hero { max-width: 600px; }
+.auth-hero h1 { font-size: var(--text-3xl); margin: 0 0 var(--space-4); }
+.auth-hero p { font-size: var(--text-lg); color: var(--primary-300); }
+.auth-card { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: var(--space-8); }
+@media (max-width: 1024px) { .auth-left { display:none; } .auth-right { width: 100%; } }

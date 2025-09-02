@@ -1,37 +1,69 @@
 {% extends 'base/layout.html' %}
+{% from 'macros/ui.html' import status_badge, small_badge %}
 {% block content %}
-<h1>Tasks</h1>
-<div class="task-management">
-  <div class="filters">
-    <select name="status">
-      <option value="">All Statuses</option>
-      <option value="pending">Pending</option>
-      <option value="in_progress">In Progress</option>
-      <option value="overdue">Overdue</option>
-    </select>
-    <select name="priority">
-      <option value="">All Priorities</option>
-      <option value="high">High</option>
-      <option value="medium">Medium</option>
-      <option value="low">Low</option>
-    </select>
+<header class="page-header"><h1 style="margin:0">Tasks</h1></header>
+<section class="page-body">
+  <div class="card" style="padding: var(--space-6); margin-bottom: var(--space-6);">
+    <form role="search" method="get" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); align-items:end;">
+      <div>
+        <label class="muted" for="tq">Search</label>
+        <input id="tq" name="q" type="text" value="{{ request.args.get('q','') }}" placeholder="Title or description" />
+      </div>
+      <div>
+        <label class="muted" for="tstatus">Status</label>
+        <select id="tstatus" name="status">
+          {% set ts = request.args.get('status','') %}
+          {% for s in ['', 'Pending', 'In Progress', 'Completed', 'Overdue'] %}
+            <option value="{{ s }}" {{ 'selected' if ts==s else '' }}>{{ s or 'All' }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="muted" for="tpriority">Priority</label>
+        <select id="tpriority" name="priority">
+          {% set tp = request.args.get('priority','') %}
+          {% for p in ['', 'Low','Medium','High','Critical'] %}
+            <option value="{{ p }}" {{ 'selected' if tp==p else '' }}>{{ p or 'All' }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <input type="hidden" name="org" value="{{ request.args.get('org','') }}" />
+      <input type="hidden" name="control" value="{{ request.args.get('control','') }}" />
+      <button class="btn btn-primary" type="submit">Apply</button>
+    </form>
   </div>
 
-  <div class="task-list">
-    {% for task in tasks %}
-    <div class="task-item priority-{{ task.priority }}">
-      <div class="task-header">
-        <h4>{{ task.title }}</h4>
-        <span class="status-badge status-{{ task.status }}">{{ task.status }}</span>
+  <div class="card" style="padding: var(--space-6);">
+    <div class="task-list" style="display:grid; gap: var(--space-4);">
+      {% for t in tasks %}
+      <div class="task-item" style="padding: var(--space-4); border: 1px solid var(--gray-200); border-radius: 8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap: var(--space-3);">
+          <h4 style="margin:0;">{{ t.title }}</h4>
+          {{ status_badge(t.status) }}
+        </div>
+        <div class="muted" style="display:flex; gap: var(--space-4); margin-top: var(--space-2);">
+          <span>{{ t.due_date and ('Due ' ~ t.due_date) or 'No due date' }}</span>
+          {% if t.priority %}<span>{{ small_badge(t.priority) }}</span>{% endif %}
+          {% if t.assignee_name %}<span>Assignee: {{ t.assignee_name }}</span>{% endif %}
+        </div>
       </div>
-      <div class="task-meta">
-        <span class="due-date">Due: {{ task.due_date }}</span>
-        <span class="assignee">{{ task.assigned_user.name }}</span>
-      </div>
+      {% else %}
+      <p class="muted">No tasks</p>
+      {% endfor %}
     </div>
-    {% else %}
-    <p>No tasks</p>
-    {% endfor %}
+
+    {% if pagination and pagination.pages > 1 %}
+    <nav aria-label="pagination" style="display:flex; justify-content:space-between; align-items:center; margin-top: var(--space-4);">
+      {% set page = pagination.page %}
+      {% set pages = pagination.pages %}
+      {% set per_page = pagination.per_page %}
+      {% set build = lambda p: url_for('tasks.list_tasks', **request.args.to_dict(flat=True) | {'page':p,'per_page':per_page}) %}
+      <a class="btn btn-secondary" href="{{ build(page-1) if page>1 else '#' }}" aria-disabled="{{ 'true' if page==1 else 'false' }}">Prev</a>
+      <span class="muted">Page {{ page }} of {{ pages }} • {{ pagination.total }} total</span>
+      <a class="btn btn-secondary" href="{{ build(page+1) if page<pages else '#' }}" aria-disabled="{{ 'true' if page==pages else 'false' }}">Next</a>
+    </nav>
+    {% endif %}
   </div>
-</div>
+  
+</section>
 {% endblock %}

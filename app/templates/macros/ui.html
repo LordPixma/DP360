@@ -1,0 +1,21 @@
+{% macro status_badge(status) -%}
+  {%- set s = (status or '')|lower -%}
+  {%- if s in ['implemented','compliant','completed','done'] -%}
+    <span class="badge badge-success">{{ status }}</span>
+  {%- elif s in ['in progress','in-progress','working'] -%}
+    <span class="badge badge-info">{{ status }}</span>
+  {%- elif s in ['not started','pending','at-risk'] -%}
+    <span class="badge badge-warning">{{ status }}</span>
+  {%- else -%}
+    <span class="badge">{{ status }}</span>
+  {%- endif -%}
+{%- endmacro %}
+
+{# Generic small badge/pill for compact labels (framework code, percents, tags) #}
+{% macro small_badge(text, variant=None) -%}
+  {%- set cls = 'badge' -%}
+  {%- if variant -%}
+    {%- set cls = cls + ' ' + variant -%}
+  {%- endif -%}
+  <span class="{{ cls }}" style="font-size: var(--text-xs); padding: 2px 6px;">{{ text }}</span>
+{%- endmacro %}

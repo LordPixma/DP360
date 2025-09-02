@@ -1,0 +1,9 @@
+.progress-circle { width:140px; height:140px; border-radius:50%; display:grid; place-items:center; background: conic-gradient(var(--success) calc(var(--pct, 62) * 1%), var(--gray-200) 0); }
+.progress-circle .inner { width:100px; height:100px; border-radius:50%; background: var(--white); display:grid; place-items:center; font-size: var(--text-xl); font-weight: 700; color: var(--success); }
+
+.framework-row { display:flex; align-items:center; gap: var(--space-4); margin-bottom: var(--space-3); }
+.framework-row .name { width:160px; font-weight:600; }
+.framework-row .bar { flex:1; }
+.framework-row .bar .progress { width: calc(var(--pct, 0) * 1%); }
+.progress[data-pct] { width: calc(attr(data-pct percentage, 0%) ); }
+.framework-row .pct { width:48px; text-align:right; font-weight:600; }

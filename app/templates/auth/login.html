@@ -1,9 +1,39 @@
 {% extends 'base/layout.html' %}
 {% block content %}
-<h1>Login</h1>
-<form>
-  <input placeholder="Email">
-  <input type="password" placeholder="Password">
-  <button type="submit">Login</button>
-</form>
+<div class="auth-split">
+  <section class="auth-left">
+    <div class="auth-hero">
+      <h1>Manage bookings, staff, and customers seamlessly.</h1>
+      <p>A fast, modern platform for multi-room studios. Secure, cloud-native, and built for teams.</p>
+      <ul>
+        <li>• Enterprise-grade security</li>
+        <li>• Real-time compliance insights</li>
+        <li>• Workflow automation</li>
+      </ul>
+    </div>
+  </section>
+  <section class="auth-right">
+    <div class="auth-card">
+      <h2 style="margin-top:0">Welcome back</h2>
+      <form aria-label="Login form">
+        <div style="display:flex; flex-direction:column; gap: 12px;">
+          <label>
+            <span class="sr-only">Email</span>
+            <input type="email" placeholder="Email" required />
+          </label>
+          <label>
+            <span class="sr-only">Password</span>
+            <input type="password" placeholder="Password" required />
+          </label>
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size: var(--text-sm);">
+            <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" /> Remember me</label>
+            <a href="#">Forgot password?</a>
+          </div>
+          <button class="btn btn-primary" type="submit">Sign in</button>
+          <div class="muted">Don't have an account? <a href="#">Sign up</a></div>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
 {% endblock %}

@@ -1,7 +1,9 @@
-<nav class="nav">
-  <a href="/">Dashboard</a>
-  <a href="/compliance">Compliance</a>
-  <a href="/controls">Controls</a>
-  <a href="/tasks">Tasks</a>
-  <a href="/reports">Reports</a>
+<nav role="navigation">
+  <a href="/" class="{{ 'active' if request.blueprint == 'dashboard' else '' }}" aria-current="{{ 'page' if request.blueprint == 'dashboard' else '' }}" aria-label="Dashboard">Dashboard</a>
+  <a href="/compliance" class="{{ 'active' if request.blueprint == 'compliance' else '' }}" aria-label="Compliance">Compliance</a>
+  <a href="/controls" class="{{ 'active' if request.blueprint == 'controls' else '' }}" aria-label="Controls">Controls</a>
+  <a href="/tasks" class="{{ 'active' if request.blueprint == 'tasks' else '' }}" aria-label="Tasks">Tasks</a>
+  <a href="/reports" class="{{ 'active' if request.blueprint == 'reports' else '' }}" aria-label="Reports">Reports</a>
+  <a href="/integrations" class="{{ 'active' if request.blueprint == 'integrations' else '' }}" aria-label="Integrations">Integrations</a>
+  <a href="/admin" class="{{ 'active' if request.blueprint == 'admin' else '' }}" aria-label="Settings">Settings</a>
 </nav>

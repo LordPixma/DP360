@@ -1,5 +1,60 @@
 {% extends 'base/layout.html' %}
 {% block content %}
-  <h1>Dashboard</h1>
-  {% include 'dashboard/widgets/compliance_status.html' %}
+  <header class="page-header">
+    <h1 style="margin:0">Welcome back</h1>
+    <div class="muted">Organization: Acme Corp</div>
+  </header>
+  <section class="page-body widget-grid">
+    <div>
+      {% include 'dashboard/widgets/compliance_status.html' %}
+      <div class="card hover-elevate transition" style="margin-top: var(--space-6); padding: var(--space-6);">
+        <h3 style="margin-top:0">Recent Activity</h3>
+        <div class="skeleton" style="height:120px; border-radius: 8px;"></div>
+      </div>
+    </div>
+    <aside>
+      <div class="card" style="padding: var(--space-6); margin-bottom: var(--space-6);">
+        <h3 style="margin-top:0">Risk Heat Map</h3>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+          <div title="Critical" style="height:36px; background: var(--risk-critical);"></div>
+          <div title="High" style="height:36px; background: var(--risk-high);"></div>
+          <div title="Medium" style="height:36px; background: var(--risk-medium);"></div>
+          <div title="Low" style="height:36px; background: var(--risk-low);"></div>
+          <div style="height:36px; background: var(--risk-high);"></div>
+          <div style="height:36px; background: var(--risk-medium);"></div>
+          <div style="height:36px; background: var(--risk-low);"></div>
+          <div style="height:36px; background: var(--risk-low);"></div>
+        </div>
+      </div>
+      <div class="card" style="padding: var(--space-6);">
+        <h3 style="margin-top:0">Upcoming Deadlines</h3>
+        <ol style="list-style:none; padding:0; margin:0; display:grid; gap: 12px;">
+          <li style="display:flex; gap:12px; align-items:center;">
+            <div style="width:8px; height:8px; border-radius:999px; background: var(--warning);"></div>
+            <div style="flex:1;">
+              <div><strong>SOC2 Evidence upload</strong></div>
+              <div class="muted" style="font-size: var(--text-sm);">Due in 3 days</div>
+            </div>
+            <span class="badge badge-warning">Due soon</span>
+          </li>
+          <li style="display:flex; gap:12px; align-items:center;">
+            <div style="width:8px; height:8px; border-radius:999px; background: var(--info);"></div>
+            <div style="flex:1;">
+              <div><strong>Policy review</strong></div>
+              <div class="muted" style="font-size: var(--text-sm);">Due in 1 week</div>
+            </div>
+            <span class="badge badge-info">In progress</span>
+          </li>
+          <li style="display:flex; gap:12px; align-items:center;">
+            <div style="width:8px; height:8px; border-radius:999px; background: var(--danger);"></div>
+            <div style="flex:1;">
+              <div><strong>MFA rollout</strong></div>
+              <div class="muted" style="font-size: var(--text-sm);">Overdue by 2 days</div>
+            </div>
+            <span class="badge badge-danger">Overdue</span>
+          </li>
+        </ol>
+      </div>
+    </aside>
+  </section>
 {% endblock %}

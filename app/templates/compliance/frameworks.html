@@ -1,11 +1,59 @@
 {% extends 'base/layout.html' %}
+{% from 'macros/ui.html' import small_badge %}
 {% block content %}
-<h1>Frameworks</h1>
-<ul>
-  {% for f in frameworks %}
-  <li>{{ f.name }} ({{ f.code }})</li>
-  {% else %}
-  <li>No frameworks yet</li>
-  {% endfor %}
-  </ul>
+  <header class="page-header">
+    <h1 style="margin:0">Compliance Frameworks</h1>
+  </header>
+  <section class="page-body">
+    <div class="card" style="padding: var(--space-6); margin-bottom: var(--space-6);">
+      <form role="search" aria-label="Filter frameworks" style="display:flex; gap: var(--space-4); align-items:end; flex-wrap: wrap;">
+        <div style="flex:1; min-width: 220px;">
+          <label class="muted" for="q">Search</label>
+          <input id="q" type="text" placeholder="Search by name or code" />
+        </div>
+        <div>
+          <label class="muted" for="status">Status</label>
+          <select id="status">
+            <option>All</option>
+            <option>Compliant</option>
+            <option>At Risk</option>
+            <option>Non-Compliant</option>
+          </select>
+        </div>
+        <div>
+          <label class="muted" for="owner">Owner</label>
+          <select id="owner"><option>Any</option></select>
+        </div>
+        <button class="btn btn-primary" type="submit">Filter</button>
+      </form>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-6);">
+      {% for f in frameworks or [
+          {'name':'SOC 2','code':'SOC2','percentage':72,'controls':128,'assessed':'2025-08-20'},
+          {'name':'ISO 27001','code':'ISO27001','percentage':58,'controls':142,'assessed':'2025-08-14'},
+          {'name':'GDPR','code':'GDPR','percentage':66,'controls':96,'assessed':'2025-08-28'}
+        ] %}
+      <div class="card hover-elevate transition" style="padding: var(--space-6);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap: var(--space-3);">
+          <h3 style="margin:0">{{ f.name }}</h3>
+          {{ small_badge(f.percentage ~ '%', 'badge-' ~ ('success' if f.percentage >= 80 else ('warning' if f.percentage >= 60 else 'danger'))) }}
+        </div>
+        <div class="muted">{{ small_badge(f.code) }}</div>
+        <div style="margin-top: var(--space-4);">
+          <div class="progress-bar"><div class="progress" data-pct="{{ f.percentage }}"></div></div>
+        </div>
+        <div style="display:flex; gap: var(--space-6); margin-top: var(--space-4); color: var(--gray-600); font-size: var(--text-sm);">
+          <div>{{ f.controls }} controls</div>
+          <div>Last assessed {{ f.assessed }}</div>
+        </div>
+        <div style="margin-top: var(--space-4); display:flex; gap: var(--space-3);">
+          <button class="btn btn-secondary" type="button">View</button>
+          <button class="btn btn-secondary" type="button">Controls</button>
+          <button class="btn btn-secondary" type="button">Tasks</button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
 {% endblock %}

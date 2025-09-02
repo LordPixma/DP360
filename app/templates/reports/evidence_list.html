@@ -1,0 +1,57 @@
+{% extends 'base/layout.html' %}
+{% from 'macros/ui.html' import small_badge %}
+{% block content %}
+<header class="page-header"><h1 style="margin:0">Evidence</h1></header>
+<section class="page-body">
+  <div class="card" style="padding: var(--space-6); margin-bottom: var(--space-6);">
+    <form role="search" method="get" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); align-items:end;">
+      <div>
+        <label class="muted" for="eq">Search</label>
+        <input id="eq" name="q" type="text" value="{{ request.args.get('q','') }}" placeholder="File name or description" />
+      </div>
+      <input type="hidden" name="org" value="{{ request.args.get('org','') }}" />
+      <input type="hidden" name="control" value="{{ request.args.get('control','') }}" />
+      <button class="btn btn-primary" type="submit">Apply</button>
+    </form>
+  </div>
+
+  <div class="card" style="overflow: hidden;">
+    <table class="table" aria-label="Evidence table">
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Type</th>
+          <th>Size</th>
+          <th>Uploaded</th>
+          <th>By</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+        <tr>
+          <td>{{ it.file_name }}</td>
+          <td>{{ small_badge(it.file_type or 'n/a') }}</td>
+          <td>{{ it.file_size or '—' }}</td>
+          <td>{{ it.created_at or '—' }}</td>
+          <td>{{ it.uploaded_by or '—' }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="muted">No evidence</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if pagination and pagination.pages > 1 %}
+    <nav aria-label="pagination" style="display:flex; justify-content:space-between; align-items:center; padding: var(--space-4); border-top: 1px solid var(--gray-200);">
+      {% set page = pagination.page %}
+      {% set pages = pagination.pages %}
+      {% set per_page = pagination.per_page %}
+      {% set build = lambda p: url_for('reports.list_evidence', **request.args.to_dict(flat=True) | {'page':p,'per_page':per_page}) %}
+      <a class="btn btn-secondary" href="{{ build(page-1) if page>1 else '#' }}" aria-disabled="{{ 'true' if page==1 else 'false' }}">Prev</a>
+      <span class="muted">Page {{ page }} of {{ pages }} • {{ pagination.total }} total</span>
+      <a class="btn btn-secondary" href="{{ build(page+1) if page<pages else '#' }}" aria-disabled="{{ 'true' if page==pages else 'false' }}">Next</a>
+    </nav>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

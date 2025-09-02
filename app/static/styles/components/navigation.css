@@ -1,0 +1,18 @@
+/* Top Navigation Bar */
+.topnav {
+  height: 64px;
+  background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 100%);
+  color: var(--white);
+  display: flex; align-items: center; gap: var(--space-6);
+  padding: 0 var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+.topnav .brand { font-size: var(--text-lg); font-weight: 700; }
+.topnav .search { flex: 1; }
+.topnav input[type="search"] { width: 100%; height: 40px; border-radius: var(--radius-md); border: 1px solid var(--primary-500); padding: 0 var(--space-4); }
+.topnav .actions { display:flex; align-items:center; gap: var(--space-4); }
+
+/* Sidebar */
+.sidebar { width: 280px; background: var(--white); border-right: 1px solid var(--gray-200); padding: var(--space-6) var(--space-4); }
+.sidebar a { display:block; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); color: var(--primary-700); font-weight: 600; }
+.sidebar a.active, .sidebar a:hover { background: var(--primary-100); color: var(--primary-900); }

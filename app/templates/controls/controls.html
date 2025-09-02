@@ -1,11 +1,109 @@
 {% extends 'base/layout.html' %}
+{% from 'macros/ui.html' import status_badge, small_badge %}
 {% block content %}
-<h1>Controls</h1>
-<ul>
-  {% for c in controls %}
-  <li>{{ c.control_id }} - {{ c.title }}</li>
-  {% else %}
-  <li>No controls</li>
-  {% endfor %}
-</ul>
+  <header class="page-header">
+    <h1 style="margin:0">Controls</h1>
+  </header>
+  <section class="page-body">
+    <div class="card" style="padding: var(--space-6); margin-bottom: var(--space-6);">
+      <form role="search" aria-label="Filter controls" method="get" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); align-items:end;">
+        <div>
+          <label class="muted" for="cq">Search</label>
+          <input id="cq" name="q" type="text" value="{{ request.args.get('q','') }}" placeholder="ID, title, description" />
+        </div>
+        <div>
+          <label class="muted" for="cstatus">Status</label>
+          <select id="cstatus" name="status">
+            <option value="">All</option>
+            {% for s in (filter_opts.statuses or []) %}
+              <option value="{{ s }}" {{ 'selected' if request.args.get('status')==s else '' }}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label class="muted" for="risk">Risk</label>
+          <select id="risk" name="risk">
+            {% set rr = request.args.get('risk') %}
+            <option value="" {{ 'selected' if not rr else '' }}>Any</option>
+            {% for r in ['Low','Medium','High','Critical'] %}
+            <option value="{{ r }}" {{ 'selected' if rr==r else '' }}>{{ r }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label class="muted" for="owner">Owner</label>
+          <select id="owner" name="owner">
+            <option value="">Any</option>
+            {% for o in (filter_opts.owners or []) %}
+              <option value="{{ o }}" {{ 'selected' if request.args.get('owner')==o else '' }}>{{ o }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <input type="hidden" name="org" value="{{ request.args.get('org','') }}" />
+        <button class="btn btn-primary" type="submit">Apply</button>
+      </form>
+    </div>
+
+    <div class="card" style="overflow:hidden;">
+      <table class="table" aria-label="Controls table">
+        <thead>
+          <tr>
+            <th>Control</th>
+            <th>Framework</th>
+            <th>Status</th>
+            <th>Owner</th>
+            <th>Due</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in controls or [
+            {'control_id':'CC1.1','title':'Logical Access Controls','framework':'SOC 2','status':'Implemented','owner':'Alice','due':'2025-09-15'},
+            {'control_id':'A.9.2','title':'User Access Management','framework':'ISO 27001','status':'In Progress','owner':'Bob','due':'2025-09-22'},
+            {'control_id':'Art.30','title':'Records of Processing','framework':'GDPR','status':'Not Started','owner':'Carol','due':'2025-10-01'}
+          ] %}
+          <tr>
+            <td><strong>{{ c.control_id }}</strong><br/><span class="muted">{{ c.title }}</span></td>
+            <td>{{ small_badge(c.framework) }}</td>
+            <td>{{ status_badge(c.status or 'Not Started') }}</td>
+            <td>{{ c.owner }}</td>
+            <td>{{ c.due }}</td>
+            <td>
+              <button class="btn btn-secondary view-control" type="button" data-tooltip title="View details" data-modal-target="control-detail" data-id="{{ c.id }}">View</button>
+              <button class="btn btn-secondary" type="button" data-tooltip title="Edit control">Edit</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  
+  <!-- Control Detail Modal -->
+  <div id="control-detail" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="controlTitle">
+    <div class="dialog" style="width: 720px; max-width: calc(100% - 32px);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 id="controlTitle" style="margin:0">Control detail</h3>
+        <button class="btn btn-secondary" type="button" data-modal-close>Close</button>
+      </div>
+      <div class="muted" id="controlMeta">Framework • Owner • Status</div>
+      <div style="margin-top: var(--space-4);">
+        <div class="progress-bar"><div class="progress" style="width: 60%"></div></div>
+      </div>
+      <div style="margin-top: var(--space-4);">
+        <p><strong>Description</strong></p>
+        <p class="muted" id="controlDescription">Detailed control description will appear here.</p>
+      </div>
+      <div style="margin-top: var(--space-6); display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+        <div>
+          <p><strong>Recent Tasks</strong></p>
+          <ul id="controlTasks" class="muted" style="margin:0; padding-left: 18px;"></ul>
+        </div>
+        <div>
+          <p><strong>Recent Evidence</strong></p>
+          <ul id="controlEvidence" class="muted" style="margin:0; padding-left: 18px;"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

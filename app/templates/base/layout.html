@@ -7,11 +7,36 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-  {% include 'base/navigation.html' %}
-  <main class="container">
-    {% block content %}{% endblock %}
-  </main>
-  {% include 'base/footer.html' %}
+  {% include 'base/icons.svg' %}
+  <header class="topnav">
+    <div class="brand">Comp360Flow</div>
+    <div class="search"><input type="search" placeholder="Search..." aria-label="Global search" /></div>
+    <div class="actions">
+      <button class="btn btn-secondary" title="Organization" data-tooltip>
+        <svg width="18" height="18" aria-hidden="true"><use href="#icon-building" /></svg>
+        <span class="sr-only">Organization</span>
+      </button>
+      <button class="btn btn-secondary" title="Alerts" data-tooltip>
+        <svg width="18" height="18" aria-hidden="true"><use href="#icon-bell" /></svg>
+        <span class="sr-only">Alerts</span>
+      </button>
+      <button class="btn btn-secondary" title="Profile" data-tooltip>
+        <svg width="18" height="18" aria-hidden="true"><use href="#icon-user" /></svg>
+        <span class="sr-only">Profile</span>
+      </button>
+    </div>
+  </header>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary Navigation">
+      {% include 'base/navigation.html' %}
+    </aside>
+    <div class="app-content">
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+      {% include 'base/footer.html' %}
+    </div>
+  </div>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

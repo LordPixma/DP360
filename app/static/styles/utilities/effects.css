@@ -1,0 +1,8 @@
+/* Transitions and micro-interactions */
+.transition { transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1); }
+.hover-elevate:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+
+/* Skeleton loading */
+.skeleton { position: relative; overflow: hidden; background: var(--gray-200); }
+.skeleton::after { content:""; position:absolute; inset:0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent); animation: skeleton-wave 1.5s infinite; }
+@keyframes skeleton-wave { 100% { transform: translateX(100%); } }

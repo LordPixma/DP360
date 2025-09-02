@@ -1,0 +1,12 @@
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display:none; }
+.modal { position: fixed; inset: 0; display:none; align-items:center; justify-content:center; }
+.modal[aria-hidden="false"], .modal-backdrop[aria-hidden="false"] { display:flex; }
+.modal .dialog { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 600px; max-width: calc(100% - 32px); padding: var(--space-6); }
+.modal .dialog:focus { outline: none; }
+
+.tooltip { position: relative; }
+.tooltip .tooltip-content { position:absolute; z-index:10; background: var(--primary-900); color: var(--white); padding: 6px 10px; border-radius: 6px; font-size: var(--text-sm); display:none; }
+.tooltip[aria-expanded="true"] .tooltip-content { display:block; }
+
+.toast-container { position: fixed; right: 16px; bottom: 16px; display:flex; flex-direction:column; gap:8px; }
+.toast { background: var(--white); border-left: 4px solid var(--accent-primary); box-shadow: var(--shadow-md); padding: 10px 12px; border-radius: 8px; min-width: 260px; }
